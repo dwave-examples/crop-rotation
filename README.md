@@ -36,7 +36,8 @@ that will be saved as `output.png`.
 
 We frame the problem of crop rotation as an optimization problem with the
 objective of maximizing plot utilization, subject to some constraints.  This
-problem definition is based on the formulation described in Santos (2008).
+problem definition is based on the formulation described in Santos et al.
+(2008).
 
 Crops are members of crop families.  Each crop may be planted in any plot,
 and may be grown zero or more times in a rotation, but may be planted only in
