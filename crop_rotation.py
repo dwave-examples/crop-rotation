@@ -304,8 +304,10 @@ class CropRotation:
         print(f'Saved illustration of solution to {output_path}')
 
 
-@click.command()
-@click.option('--path', type=click.File(), default=DEFAULT_PATH)
+@click.command(help='Solve an instance of the Crop Rotation problem using '
+                    'LeapHybridDQMSampler.')
+@click.option('--path', type=click.File(), default=DEFAULT_PATH,
+              help=f'Path to problem file.  Default is {DEFAULT_PATH!r}')
 @click.option('--verbose', is_flag=True)
 def main(path, verbose):
     try:
