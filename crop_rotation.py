@@ -96,17 +96,6 @@ class CropRotation:
             period += self.time_units
         return period
 
-    def _get_rx_periods(self, period, crop1, r1, crop2, r2):
-        r1_period = self.rollover_period(period - r1)
-        if crop1 not in self.period_crops[r1_period]:
-            return None
-
-        r2_period = self.rollover_period(period - r2)
-        if crop2 not in self.period_crops[r2_period]:
-            return None
-
-        return r1_period, r2_period
-
     def crop_r_combinations(self, plot, period, crop_r):
         for (crop1, r1), (crop2, r2) in combinations(crop_r, 2):
             if r1 == r2:
@@ -114,11 +103,14 @@ class CropRotation:
                 # ignore this case.
                 continue
 
-            rx_periods = self._get_rx_periods(period, crop1, r1, crop2, r2)
-            if not rx_periods:
+            r1_period = self.rollover_period(period - r1)
+            if crop1 not in self.period_crops[r1_period]:
                 continue
 
-            r1_period, r2_period = rx_periods
+            r2_period = self.rollover_period(period - r2)
+            if crop2 not in self.period_crops[r2_period]:
+                continue
+
             var1 = f'{plot},{r1_period}'
             var2 = f'{plot},{r2_period}'
             yield var1, crop1, var2, crop2
@@ -130,11 +122,14 @@ class CropRotation:
                 # ignore this case.
                 continue
 
-            rx_periods = self._get_rx_periods(period, crop1, r1, crop2, r2)
-            if not rx_periods:
+            r1_period = self.rollover_period(period - r1)
+            if crop1 not in self.period_crops[r1_period]:
                 continue
 
-            r1_period, r2_period = rx_periods
+            r2_period = self.rollover_period(period - r2)
+            if crop2 not in self.period_crops[r2_period]:
+                continue
+
             var1 = f'{u},{r1_period}'
             var2 = f'{v},{r2_period}'
             yield var1, crop1, var2, crop2
