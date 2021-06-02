@@ -172,6 +172,19 @@ a simple penalty scheme for each constraint.  That is, we will add a positive
 number (our penalty parameter, `gamma`) to the quadratic bias for every unique
 pairing of the variables that appear in each constraint's sum.
 
+## Generating problem instances
+
+To generate random problem instances for testing, type:
+
+    python problem_gen.py NROWS NCOLS
+
+where NROWS and NCOLS provide the dimensions of a 2D plot grid.  Additional
+parameters are described by:
+
+    python problem_gen.py --help
+
+The random problem file will be written to stdout.
+
 ## References
 
 Santos, L. M. R. dos et al. "Crop rotation scheduling with adjacency
