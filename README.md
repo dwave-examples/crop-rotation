@@ -100,7 +100,7 @@ min \sum_{k=1}^{L} \sum_{j=1}^{M} \sum_{i=1}^{N} - t_i \cdot x_{i,j,k}
 
 ### Constraints
 
-Now we need to consider our constraints.  The first constraint is that at two
+Now we need to consider our constraints.  The first constraint is that two
 crops cannot occupy the same space.  Since our `x_i,j,k` variables indicate
 planting, not occupation, we sum the `x_i,j,k` over each crop's grow time `t_i`
 to represent occupation.  This is actually a set of constraints; there are
