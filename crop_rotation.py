@@ -32,6 +32,14 @@ DEFAULT_PATH = join(dirname(__file__), 'data', 'problem1.yaml')
 
 
 def load_problem_file(path):
+    """Load a problem file.
+
+    Args:
+        path (string): Path to input file.
+
+    Returns:
+        Tuple of time_units (int), plot_adjacency (dict), and crops (dict).
+    """
     try:
         data = list(yaml.safe_load_all(path))[0]
     except IndexError:
@@ -46,6 +54,18 @@ def load_problem_file(path):
 
 
 def crop_colors(crop_families):
+    """Generate colors for crops to be used in visualization of solution.
+
+    All crops should have a unique color and crops in the same family should
+    have similar colors.
+
+    Args:
+        crop_families (dict):
+            Dictionary of crop family names mapped to crops.
+
+    Returns:
+        Dictionary of crop names mapped to colors.
+    """
     h_scale = 2 / (3 * len(crop_families))
     colors = {}
 
@@ -61,6 +81,8 @@ def crop_colors(crop_families):
 
 
 class CropRotation:
+    """Solve a crop rotation problem.
+    """
     def __init__(self, time_units, plot_adjacency, crops, verbose):
         self.time_units = time_units
         self.plot_adjacency = plot_adjacency
@@ -90,6 +112,9 @@ class CropRotation:
         self.crop_colors = crop_colors(self.crop_families)
 
     def rollover_period(self, period):
+        """Ensure that `period` is between 1 and `self.time_units` by adding or
+        subtracting multiples of `self.time_units`.
+        """
         while period > self.time_units:
             period -= self.time_units
         while period < 1:
@@ -97,6 +122,20 @@ class CropRotation:
         return period
 
     def crop_r_combinations(self, plot, period, crop_r):
+        """Generate combinations of variables and cases from an input sequence.
+
+        Args:
+            plot:
+
+            period:
+
+            crop_r: Sequence of crops paired with r-values.  R-values are
+                integers used to identify earlier or later growing periods on
+                a plot relative to `period`.
+
+        Returns:
+            Generator yielding four-tuples: var1, crop1, var2, crop2.
+        """
         for (crop1, r1), (crop2, r2) in combinations(crop_r, 2):
             if r1 == r2:
                 # DQM enforces one-hot constraint for all variables so we can
@@ -116,6 +155,18 @@ class CropRotation:
             yield var1, crop1, var2, crop2
 
     def plot_crop_r_combinations(self, period, plot_crop_r):
+        """Generate combinations of variables and cases from an input sequence.
+
+        Args:
+            period:
+
+            plot_crop_r: Sequence of (plot, crop, r-value) triples.  R-values
+                are integers used to identify earlier or later growing periods
+                on a plot relative to `period`.
+
+        Returns:
+            Generator yielding four-tuples: var1, crop1, var2, crop2.
+        """
         for (u, crop1, r1), (v, crop2, r2) in combinations(plot_crop_r, 2):
             if (u, r1) == (v, r2):
                 # DQM enforces one-hot constraint for all variables so we can
@@ -135,6 +186,8 @@ class CropRotation:
             yield var1, crop1, var2, crop2
 
     def build_dqm(self):
+        """Build a discrete quadratic model that encodes the problem.
+        """
         self.dqm = dqm = CaseLabelDQM()
 
         # add variables and set linear biases.
@@ -192,11 +245,15 @@ class CropRotation:
                   f'({n_c_i * 100 / (n_c * n_c):.1f} % of max)')
 
     def solve(self):
+        """Solve the problem using LeapHybridDQMSampler.
+        """
         sampler = LeapHybridDQMSampler()
         self.sampleset = sampler.sample_dqm(self.dqm,
             label='Example - Crop Rotation')
 
     def validate(self, sample):
+        """Check that the constraints of the problem are satisfied.
+        """
         errors = []
 
         # check first constraint set.
@@ -258,6 +315,8 @@ class CropRotation:
         return errors
 
     def render_solution(self, sample, path):
+        """Generate a visual representation of the solution.
+        """
         labels = set()  # keep track of labels so legend won't have duplicates.
         width = 1
         fig, ax = plt.subplots()
@@ -288,6 +347,8 @@ class CropRotation:
         fig.savefig(path)
 
     def evaluate(self):
+        """Evaluate the solution.
+        """
         if self.verbose:
             print(self.sampleset)
 
