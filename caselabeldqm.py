@@ -51,5 +51,7 @@ class CaseLabelDQM(DiscreteQuadraticModel):
         DiscreteQuadraticModel.set_quadratic_case(self, u, k, v, m, bias)
 
     def map_sample(self, sample):
+        """Translate the values assigned to each variable in the sample.
+        """
         return {var: self._case_label[var][value]
                 for var, value in sample.items()}
