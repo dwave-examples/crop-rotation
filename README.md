@@ -57,7 +57,7 @@ These are the parameters of the problem:
 - `L` : number of plots
 - `N` : number of crops
 - `N_f` : number of crop families
-- `F_p` : set of crops in plant family p
+- `F_p` : set of crops in crop family p
 - `S` : set of pairs defining adjacent plots
 - `t_i` : number of time units required between planting and harvest for crop i
 - `I_i` : period of time [a, b] during which crop i can be planted
