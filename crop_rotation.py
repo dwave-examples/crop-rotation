@@ -232,17 +232,29 @@ class CropRotation:
                     for args in self.plot_crop_r_combinations(period, plot_crop_r):
                         dqm.set_quadratic_case(*args, self.gamma)
 
+
         if self.verbose:
             n_v = dqm.num_variables()
             n_v_i = dqm.num_variable_interactions()
+            max_n_v_i = n_v * (n_v - 1) // 2
+
             n_c = dqm.num_cases()
             n_c_i = dqm.num_case_interactions()
+            n_plots = len(self.plot_adjacency)
+
+            # this is the number of case interactions that are disallowed by
+            # DQM (cases of a variable interacting with itself).
+            illegal_c_i = sum((1 + len(x)) * len(x) // 2
+                              for x in self.period_crops.values()) * n_plots
+
+            max_n_c_i = (n_c * (n_c - 1) // 2) - illegal_c_i
+
             print(f'DQM num. variables: {n_v}')
             print(f'DQM num. variable interactions: {n_v_i} '
-                  f'({n_v_i * 100 / (n_v * n_v):.1f} % of max)')
+                  f'({n_v_i * 100 / max_n_v_i:.1f} % of max)')
             print(f'DQM num. cases: {n_c}')
             print(f'DQM num. case interactions: {n_c_i} '
-                  f'({n_c_i * 100 / (n_c * n_c):.1f} % of max)')
+                  f'({n_c_i * 100 / max_n_c_i:.1f} % of max)')
 
     def solve(self):
         """Solve the problem using LeapHybridDQMSampler.
