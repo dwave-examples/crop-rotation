@@ -20,14 +20,14 @@ from textwrap import dedent
 from crop_rotation import load_problem_file, InvalidProblem
 
 
-class Test_load_problem_file(unittest.TestCase):
-    def test0(self):
+class TestLoadProblemFile(unittest.TestCase):
+    def test_empty_file(self):
         buf = StringIO()
         with self.assertRaises(InvalidProblem) as cm:
             load_problem_file(buf)
         self.assertIn('empty file', cm.exception.args[0])
 
-    def test1(self):
+    def test_missing_element(self):
         buf = StringIO(dedent('''
                               time_units: 1
                               '''))
