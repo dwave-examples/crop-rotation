@@ -29,13 +29,13 @@ class CaseLabelDQM(DiscreteQuadraticModel):
     def add_variable(self, cases, label):
         var = label
         if var in self._label_case:
-            raise Exception(f'variable exists: {var}')
+            raise ValueError(f'variable exists: {var}')
 
         if isinstance(cases, int):
             cases = list(range(cases))
 
         if len(set(cases)) != len(cases):
-            raise Exception(f'cases for variable {var} are not unique')
+            raise ValueError(f'cases for variable {var} are not unique')
 
         self._label_case[var] = {case: k for k, case in enumerate(cases)}
         self._case_label[var] = {k: case for k, case in enumerate(cases)}
