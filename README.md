@@ -81,10 +81,20 @@ t_i`.
 
 The objective for the problem can now be written as:
 
+<!--
+LaTeX equation:
+max \sum_{k=1}^{L} \sum_{j=1}^{M} \sum_{i=1}^{N} t_i \cdot x_{i,j,k}
+-->
+
 ![Objective 1](_static/obj1.png)
 
 The DQM solver solves minimization problems, so we change this to a
 minimization problem by negating the expression.
+
+<!--
+LaTeX equation:
+min \sum_{k=1}^{L} \sum_{j=1}^{M} \sum_{i=1}^{N} - t_i \cdot x_{i,j,k}
+-->
 
 ![Objective 2](_static/obj2.png)
 
@@ -96,17 +106,37 @@ planting, not occupation, we sum the `x_i,j,k` over each crop's grow time `t_i`
 to represent occupation.  This is actually a set of constraints; there are
 `M * L` of them.  They can be written as:
 
+<!--
+LaTeX equation:
+\sum_{i=1}^{N} \sum_{r=0}^{t_i - 1} x_{i,j - r,k} \leq 1, \hspace{0.3cm}
+j = 1, \cdots, M, \hspace{0.2cm} k = 1, \cdots, L
+-->
+
 ![Constraint 1](_static/const1.png)
 
 Our second constraint is that two crops from the same family cannot be planted
 sequentially in the same plot.  This is also a set of constraints; there are
 `N_f * M * L` of them.  They can be written as:
 
+<!--
+LaTeX equation:
+\sum_{i \in F_p} \sum_{r=0}^{t_i} x_{i,j - r,k} \leq 1, \hspace{0.3cm}
+p = 1, \cdots, N_f, \hspace{0.2cm} j = 1, \cdots, M, \hspace{0.2cm}
+k = 1, \cdots, L
+-->
+
 ![Constraint 2](_static/const2.png)
 
 The third and final constraint is that two crops from the same family cannot be
 planted at the same time in adjacent plots.  This is also a set of constraints;
 there are `N_f * M * |S|` of them.  They can be written as:
+
+<!--
+LaTeX equation:
+\sum_{i \in F_p} \sum_{r=0}^{t_i - 1} [ x_{i,j - r,u} + x_{i,j - r,v} ] \leq 1,
+\hspace{0.3cm} p = 1, \cdots, N_f, \hspace{0.2cm} j = 1, \cdots, M, \hspace{0.2cm}
+(u, v) \in S
+-->
 
 ![Constraint 3](_static/const3.png)
 
