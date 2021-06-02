@@ -364,13 +364,12 @@ class CropRotation:
         if self.verbose:
             print(self.sampleset)
 
-        for idx, (sample,) in enumerate(self.sampleset.data(fields=['sample'])):
-            for error in self.validate(self.dqm.map_sample(sample)):
-                print(f'Solution {idx} is invalid: {error}')
-
         sample = self.dqm.map_sample(self.sampleset.first.sample)
         print(f'Solution: {dict(((k, v) for k, v in sample.items() if v))}')
         print(f'Solution energy: {self.sampleset.first.energy}')
+
+        for error in self.validate(sample):
+            print(f'Solution is invalid: {error}')
 
         output_path = 'output.png'
         self.render_solution(sample, output_path)
