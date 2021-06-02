@@ -17,7 +17,7 @@ from dimod import DiscreteQuadraticModel
 
 class CaseLabelDQM(DiscreteQuadraticModel):
     '''DiscreteQuadraticModel that identifies variable cases using arbitrary
-    labels instead of ints.
+    labels instead of integers.
     '''
     def __init__(self, *args, **kwargs):
         DiscreteQuadraticModel.__init__(self, *args, **kwargs)
@@ -27,6 +27,26 @@ class CaseLabelDQM(DiscreteQuadraticModel):
         self._label_case = {}
 
     def add_variable(self, cases, label):
+        """Add a discrete variable to the model.
+
+        Args:
+            cases (int or iterable):
+                The number of cases in the variable, or an iterable containing
+                the labels that will identify the cases of the variable.
+
+            label (hashable):
+                The name of the variable.
+
+        Returns:
+            None
+
+        Raises:
+            ValueError: If the variable exists or if any of the case labels are
+                not unique.
+
+            TypeError: If `label` is not hashable or if any of the case labels
+                are not hashable.
+        """
         var = label
         if var in self._label_case:
             raise ValueError(f'variable exists: {var}')
@@ -42,10 +62,33 @@ class CaseLabelDQM(DiscreteQuadraticModel):
         DiscreteQuadraticModel.add_variable(self, len(cases), label=var)
 
     def set_linear_case(self, var, case, bias):
+        """Set the linear bias associated with case `case` of variable `var`.
+
+        Args:
+            var: A variable in the model.
+
+            case: The case of `var`.
+
+            bias (float): The linear bias.
+        """
         k = self._label_case[var][case]
         DiscreteQuadraticModel.set_linear_case(self, var, k, bias)
 
     def set_quadratic_case(self, u, u_case, v, v_case, bias):
+        """Set the bias associated with the interaction between two cases of
+        variables `u` and `v`.
+
+        Args:
+            u: A variable in the model.
+
+            u_case: The case of `u`.
+
+            v: A variable in the model.
+
+            v_case: The case of `v`.
+
+            bias (float): The quadratic bias.
+        """
         k = self._label_case[u][u_case]
         m = self._label_case[v][v_case]
         DiscreteQuadraticModel.set_quadratic_case(self, u, k, v, m, bias)
