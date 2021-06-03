@@ -332,7 +332,7 @@ class CropRotation:
         """
         labels = set()  # keep track of labels so legend won't have duplicates.
         width = 1
-        max_x = 1
+        max_x = self.time_units
         fig, ax = plt.subplots()
 
         for k, plot in enumerate(self.plot_adjacency):
