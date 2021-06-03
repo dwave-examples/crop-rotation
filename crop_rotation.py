@@ -327,7 +327,7 @@ class CropRotation:
 
         return errors
 
-    def render_solution(self, path, show_grid_x, show_grid_y):
+    def render_solution(self, path, show_grid_x, show_grid_y, label_all_periods):
         """Generate a visual representation of the solution.
         """
         sample = self.dqm.map_sample(self.sampleset.first.sample)
@@ -361,13 +361,14 @@ class CropRotation:
         ax.set_xticklabels(xticklabels)
         ax.set_yticks(list(self.plot_adjacency.keys()))
 
-        # hide a fraction of labels or they will be hard to read.
-        if len(xticklabels) > 10:
-            xticks = ax.xaxis.get_major_ticks()
-            divisor = len(xticklabels) // 5
-            for k, x in enumerate(xticklabels):
-                if k % divisor != divisor - 1:
-                    xticks[k].set_visible(False)
+        if not label_all_periods:
+            # hide a fraction of labels or they will be hard to read.
+            if len(xticklabels) > 10:
+                xticks = ax.xaxis.get_major_ticks()
+                divisor = len(xticklabels) // 5
+                for k, x in enumerate(xticklabels):
+                    if k % divisor != divisor - 1:
+                        xticks[k].set_visible(False)
 
         # place legend to right of chart.
         box = ax.get_position()
@@ -408,8 +409,10 @@ class CropRotation:
               help='show grid lines on x-axis of solution illustration')
 @click.option('--show-grid-y', is_flag=True,
               help='show grid lines on y-axis of solution illustration')
+@click.option('--label-all-periods', is_flag=True,
+              help='label all periods in solution illustration')
 @click.option('--verbose', is_flag=True)
-def main(path, show_grid_x, show_grid_y, verbose):
+def main(path, show_grid_x, show_grid_y, label_all_periods, verbose):
     try:
         rotation = CropRotation(*load_problem_file(path), verbose)
     except InvalidProblem as e:
@@ -418,7 +421,7 @@ def main(path, show_grid_x, show_grid_y, verbose):
     rotation.build_dqm()
     rotation.solve()
     rotation.evaluate()
-    rotation.render_solution('output.png', show_grid_x, show_grid_y)
+    rotation.render_solution('output.png', show_grid_x, show_grid_y, label_all_periods)
 
 
 if __name__ == '__main__':
