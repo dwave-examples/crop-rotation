@@ -327,9 +327,10 @@ class CropRotation:
 
         return errors
 
-    def render_solution(self, sample, path):
+    def render_solution(self, path, show_grid_x, show_grid_y):
         """Generate a visual representation of the solution.
         """
+        sample = self.dqm.map_sample(self.sampleset.first.sample)
         labels = set()  # keep track of labels so legend won't have duplicates.
         width = 1
         max_x = self.time_units
@@ -373,7 +374,17 @@ class CropRotation:
         ax.set_position([box.x0, box.y0, box.width * 0.7, box.height])
         ax.legend(loc='upper center', bbox_to_anchor=(1.3, 1), shadow=True)
 
+        # show grid lines if requested.
+        if show_grid_x:
+            if show_grid_y:
+                plt.grid(axis='both')
+            else:
+                plt.grid(axis='x')
+        elif show_grid_y:
+            plt.grid(axis='y')
+
         fig.savefig(path)
+        print(f'Saved illustration of solution to {path}')
 
     def evaluate(self):
         """Evaluate the solution.
@@ -388,17 +399,17 @@ class CropRotation:
         for error in self.validate(sample):
             print(f'Solution is invalid: {error}')
 
-        output_path = 'output.png'
-        self.render_solution(sample, output_path)
-        print(f'Saved illustration of solution to {output_path}')
-
 
 @click.command(help='Solve an instance of the Crop Rotation problem using '
                     'LeapHybridDQMSampler.')
 @click.option('--path', type=click.File(), default=DEFAULT_PATH,
               help=f'Path to problem file.  Default is {DEFAULT_PATH!r}')
+@click.option('--show-grid-x', is_flag=True,
+              help='show grid lines on x-axis of solution illustration')
+@click.option('--show-grid-y', is_flag=True,
+              help='show grid lines on y-axis of solution illustration')
 @click.option('--verbose', is_flag=True)
-def main(path, verbose):
+def main(path, show_grid_x, show_grid_y, verbose):
     try:
         rotation = CropRotation(*load_problem_file(path), verbose)
     except InvalidProblem as e:
@@ -407,6 +418,7 @@ def main(path, verbose):
     rotation.build_dqm()
     rotation.solve()
     rotation.evaluate()
+    rotation.render_solution('output.png', show_grid_x, show_grid_y)
 
 
 if __name__ == '__main__':
