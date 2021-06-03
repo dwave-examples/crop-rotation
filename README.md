@@ -141,6 +141,14 @@ LaTeX equation:
 
 ![Constraint 3](_static/const3.png)
 
+### Wrap-around periods
+
+Crop rotations are cyclic, so the period following `M` is 1.  The second and
+third constraints of the problem take wrapping into account.  Here is an
+illustration of a wrapping solution:
+
+![Wrapping Solution](_static/solution2.png)
+
 ### DQM Formulation
 
 To formulate the crop rotation problem as a DQM, we want to choose linear and
