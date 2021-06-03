@@ -332,13 +332,16 @@ class CropRotation:
         """
         labels = set()  # keep track of labels so legend won't have duplicates.
         width = 1
+        max_x = 1
         fig, ax = plt.subplots()
+
         for k, plot in enumerate(self.plot_adjacency):
             for period in range(1, self.time_units + 1):
                 crop = sample[f'{plot},{period}']
 
                 if crop:
                     xs = list(range(period, period + self.grow_time[crop]))
+                    max_x = max(max_x, max(xs))
                     ys = [1] * len(xs)
                     color = self.crop_colors[crop]
                     bottom = [k] * len(xs)
@@ -347,10 +350,24 @@ class CropRotation:
                     ax.bar(xs, ys, width, bottom=bottom, color=color,
                            label=label, align='edge')
 
+        # indicate wrap-around periods by repeating the 1..time_units labels.
+        xticklabels = [1 + (x % self.time_units) for x in range(max_x + 1)]
+
         plt.title('Crop Rotation Demo')
         ax.set_xlabel('Period')
         ax.set_ylabel('Plot')
+        ax.set_xticks(list(range(1, max_x + 2)))
+        ax.set_xticklabels(xticklabels)
         ax.set_yticks(list(self.plot_adjacency.keys()))
+
+        # hide a fraction of labels or they will be hard to read.
+        if len(xticklabels) > 10:
+            xticks = ax.xaxis.get_major_ticks()
+            divisor = len(xticklabels) // 5
+            if divisor:
+                for k, x in enumerate(xticklabels):
+                    if k % divisor != divisor - 1:
+                        xticks[k].set_visible(False)
 
         # place legend to right of chart.
         box = ax.get_position()
