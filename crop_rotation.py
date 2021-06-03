@@ -70,10 +70,11 @@ def crop_colors(crop_families):
     colors = {}
 
     for k, crops in enumerate(crop_families.values()):
-        h = k / len(crop_families)
+        h_fam = k / len(crop_families)
 
         for crop in crops:
-            colors[crop] = (h + (random.random() - 0.5) * h_scale,
+            h = h_fam + (random.random() - 0.5) * h_scale
+            colors[crop] = (min(1, max(0, h)),
                             0.7 + (random.random() - 0.5) * 0.3,
                             0.7 + (random.random() - 0.5) * 0.3)
 
