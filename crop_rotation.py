@@ -364,10 +364,9 @@ class CropRotation:
         if len(xticklabels) > 10:
             xticks = ax.xaxis.get_major_ticks()
             divisor = len(xticklabels) // 5
-            if divisor:
-                for k, x in enumerate(xticklabels):
-                    if k % divisor != divisor - 1:
-                        xticks[k].set_visible(False)
+            for k, x in enumerate(xticklabels):
+                if k % divisor != divisor - 1:
+                    xticks[k].set_visible(False)
 
         # place legend to right of chart.
         box = ax.get_position()
