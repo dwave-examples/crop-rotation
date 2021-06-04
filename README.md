@@ -32,6 +32,19 @@ The program will produce an illustration of the solution such as this:
 
 that will be saved as `output.png`.
 
+### Generating problem instances
+
+To generate random problem instances for testing, type:
+
+    python problem_gen.py NROWS NCOLS
+
+where NROWS and NCOLS provide the dimensions of a 2D plot grid.  Additional
+parameters are described by:
+
+    python problem_gen.py --help
+
+The random problem file will be written to stdout.
+
 ## Code overview
 
 We frame the problem of crop rotation as an optimization problem with the
@@ -179,19 +192,6 @@ our constraints are sums of variables that must equal either 0 or 1, we can use
 a simple penalty scheme for each constraint.  That is, we will add a positive
 number (our penalty parameter, `gamma`) to the quadratic bias for every unique
 pairing of the variables that appear in each constraint's sum.
-
-## Generating problem instances
-
-To generate random problem instances for testing, type:
-
-    python problem_gen.py NROWS NCOLS
-
-where NROWS and NCOLS provide the dimensions of a 2D plot grid.  Additional
-parameters are described by:
-
-    python problem_gen.py --help
-
-The random problem file will be written to stdout.
 
 ## References
 
