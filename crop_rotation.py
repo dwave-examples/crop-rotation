@@ -357,13 +357,13 @@ class CropRotation:
                            label=label, align='edge')
 
         # indicate wrap-around periods by repeating the 1..time_units labels.
-        xticklabels = [1 + (x % self.time_units) for x in range(max_x + 1)]
+        period_labels = [1 + (x % self.time_units) for x in range(max_x + 1)]
 
         plt.title('Crop Rotation Demo')
         ax.set_xlabel('Period')
         ax.set_ylabel('Plot')
         ax.set_xticks(list(range(1, max_x + 2)))
-        ax.set_xticklabels(xticklabels)
+        ax.set_xticklabels(period_labels)
         ax.set_yticks(list(self.plot_adjacency.keys()))
 
         period_divisor = max_x // 4
