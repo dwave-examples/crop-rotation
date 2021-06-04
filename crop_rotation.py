@@ -327,10 +327,14 @@ class CropRotation:
 
         return errors
 
+    @property
+    def solution(self):
+        return self.dqm.map_sample(self.sampleset.first.sample)
+
     def render_solution(self, path, show_grid_x, show_grid_y, label_all_periods):
         """Generate a visual representation of the solution.
         """
-        sample = self.dqm.map_sample(self.sampleset.first.sample)
+        sample = self.solution
         labels = set()  # keep track of labels so legend won't have duplicates.
         width = 1
         max_x = self.time_units
@@ -393,7 +397,7 @@ class CropRotation:
         if self.verbose:
             print(self.sampleset)
 
-        sample = self.dqm.map_sample(self.sampleset.first.sample)
+        sample = self.solution
         print(f'Solution: {dict(((k, v) for k, v in sample.items() if v))}')
         print(f'Solution energy: {self.sampleset.first.energy}')
 
