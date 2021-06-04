@@ -28,5 +28,8 @@ class TestCropRotation(unittest.TestCase):
         rotation.build_dqm()
         rotation.solve()
 
-        self.assertGreater(len(rotation.sampleset), 0)
-        self.assertEqual(len(rotation.validate(rotation.solution)), 0)
+        num_solutions = len(rotation.sampleset)
+        self.assertGreater(num_solutions, 0)
+
+        num_errors = len(rotation.validate(rotation.solution))
+        self.assertEqual(num_errors, 0)
