@@ -364,7 +364,8 @@ class CropRotation:
         ax.set_ylabel('Plot')
         ax.set_xticks(list(range(1, max_x + 2)))
         ax.set_xticklabels(period_labels)
-        ax.set_yticks(list(self.plot_adjacency.keys()))
+        ax.set_yticks(list(range(1, len(self.plot_adjacency) + 1)))
+        ax.set_yticklabels(list(self.plot_adjacency.keys()))
 
         period_divisor = max_x // 4
         if period_divisor:
