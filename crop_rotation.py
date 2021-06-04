@@ -21,6 +21,7 @@ import sys
 from collections import defaultdict
 from itertools import combinations
 from matplotlib.colors import hsv_to_rgb
+from matplotlib.ticker import MultipleLocator
 from os.path import dirname, join
 
 from dwave.system import LeapHybridDQMSampler
@@ -331,7 +332,7 @@ class CropRotation:
     def solution(self):
         return self.dqm.map_sample(self.sampleset.first.sample)
 
-    def render_solution(self, path, show_grid_x, show_grid_y, label_all_periods):
+    def render_solution(self, path):
         """Generate a visual representation of the solution.
         """
         sample = self.solution
@@ -365,28 +366,23 @@ class CropRotation:
         ax.set_xticklabels(xticklabels)
         ax.set_yticks(list(self.plot_adjacency.keys()))
 
-        if not label_all_periods:
-            # hide a fraction of labels or they will be hard to read.
-            if len(xticklabels) > 10:
-                xticks = ax.xaxis.get_major_ticks()
-                divisor = len(xticklabels) // 5
-                for k, x in enumerate(xticklabels):
-                    if k % divisor != divisor - 1:
-                        xticks[k].set_visible(False)
+        period_divisor = max_x // 4
+        if period_divisor:
+            # hide a fraction of period labels or they will be hard to read.
+            ax.xaxis.set_major_locator(MultipleLocator(period_divisor))
+            ax.xaxis.set_minor_locator(MultipleLocator(1))
 
         # place legend to right of chart.
         box = ax.get_position()
         ax.set_position([box.x0, box.y0, box.width * 0.7, box.height])
         ax.legend(loc='upper center', bbox_to_anchor=(1.3, 1), shadow=True)
 
-        # show grid lines if requested.
-        if show_grid_x:
-            if show_grid_y:
-                plt.grid(axis='both')
-            else:
-                plt.grid(axis='x')
-        elif show_grid_y:
-            plt.grid(axis='y')
+        # show grid lines.
+        if period_divisor:
+            plt.grid(axis='x', which='both')
+        else:
+            plt.grid(axis='x')
+        plt.grid(axis='y')
 
         fig.savefig(path)
         print(f'Saved illustration of solution to {path}')
@@ -409,14 +405,8 @@ class CropRotation:
                     'LeapHybridDQMSampler.')
 @click.option('--path', type=click.File(), default=DEFAULT_PATH,
               help=f'Path to problem file.  Default is {DEFAULT_PATH!r}')
-@click.option('--show-grid-x', is_flag=True,
-              help='show grid lines on x-axis of solution illustration')
-@click.option('--show-grid-y', is_flag=True,
-              help='show grid lines on y-axis of solution illustration')
-@click.option('--label-all-periods', is_flag=True,
-              help='label all periods in solution illustration')
 @click.option('--verbose', is_flag=True)
-def main(path, show_grid_x, show_grid_y, label_all_periods, verbose):
+def main(path, verbose):
     try:
         rotation = CropRotation(*load_problem_file(path), verbose)
     except InvalidProblem as e:
@@ -425,7 +415,7 @@ def main(path, show_grid_x, show_grid_y, label_all_periods, verbose):
     rotation.build_dqm()
     rotation.solve()
     rotation.evaluate()
-    rotation.render_solution('output.png', show_grid_x, show_grid_y, label_all_periods)
+    rotation.render_solution('output.png')
 
 
 if __name__ == '__main__':
