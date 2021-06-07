@@ -13,23 +13,36 @@
 # limitations under the License.
 
 import os
+import re
+import subprocess
+import sys
 import unittest
 
 from crop_rotation import CropRotation
 
 
+def get_illustration_path(output):
+    for line in output.splitlines():
+        match = re.match('Saved illustration of solution to (.*)', line)
+        if match:
+            return match.groups()[0]
+
+
 class TestCropRotation(unittest.TestCase):
-    @unittest.skipIf(os.getenv('SKIP_INT_TESTS'), "Skipping integration test.")
-    def test_crop_rotation(self):
+    def test_build_dqm(self):
         crop1 = {'family': 'y',
                  'planting': [1, 2],
                  'grow_time': 1}
         rotation = CropRotation(2, {1: []}, {'x': crop1}, False)
         rotation.build_dqm()
-        rotation.solve()
 
-        num_solutions = len(rotation.sampleset)
-        self.assertGreater(num_solutions, 0)
-
-        num_errors = len(rotation.validate(rotation.solution))
-        self.assertEqual(num_errors, 0)
+    @unittest.skipIf(os.getenv('SKIP_INT_TESTS'), "Skipping integration test.")
+    def test_crop_rotation(self):
+        args = [sys.executable, 'crop_rotation.py', '--output-tempfile']
+        output = subprocess.check_output(args).decode('utf8')
+        self.assertIn('Solution:', output)
+        self.assertIn('Solution energy:', output)
+        path = get_illustration_path(output)
+        self.assertIsNotNone(path)
+        self.assertGreater(os.stat(path).st_size, 0)
+        os.remove(path)
