@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 import random
 import yaml
 import sys
+import tempfile
 
 from collections import defaultdict
 from itertools import combinations
@@ -406,8 +407,11 @@ class CropRotation:
                     'LeapHybridDQMSampler.')
 @click.option('--path', type=click.File(), default=DEFAULT_PATH,
               help=f'Path to problem file.  Default is {DEFAULT_PATH!r}')
+@click.option('--output-tempfile', is_flag=True,
+              help='Output solution illustration to a unique, named temporary '
+                   'file.')
 @click.option('--verbose', is_flag=True)
-def main(path, verbose):
+def main(path, output_tempfile, verbose):
     try:
         rotation = CropRotation(*load_problem_file(path), verbose)
     except InvalidProblem as e:
@@ -416,7 +420,14 @@ def main(path, verbose):
     rotation.build_dqm()
     rotation.solve()
     rotation.evaluate()
-    rotation.render_solution('output.png')
+
+    if output_tempfile:
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as f:
+            output_path = f.name
+    else:
+        output_path = 'output.png'
+
+    rotation.render_solution(output_path)
 
 
 if __name__ == '__main__':
