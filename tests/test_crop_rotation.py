@@ -35,6 +35,8 @@ class TestCropRotation(unittest.TestCase):
                  'grow_time': 1}
         rotation = CropRotation(2, {1: []}, {'x': crop1}, False)
         rotation.build_dqm()
+        self.assertEqual(rotation.dqm.num_variables(), 2)
+        self.assertEqual(rotation.dqm.num_cases(), 4)
 
     @unittest.skipIf(os.getenv('SKIP_INT_TESTS'), "Skipping integration test.")
     def test_crop_rotation(self):
@@ -42,6 +44,7 @@ class TestCropRotation(unittest.TestCase):
         output = subprocess.check_output(args).decode('utf8')
         self.assertIn('Solution:', output)
         self.assertIn('Solution energy:', output)
+        self.assertNotIn('invalid', output)
         path = get_illustration_path(output)
         self.assertIsNotNone(path)
         self.assertGreater(os.stat(path).st_size, 0)
