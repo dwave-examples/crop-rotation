@@ -32,7 +32,7 @@ The program will produce an illustration of the solution such as this:
 
 that will be saved as `output.png`.
 
-### Generating problem instances
+### Generating Problem Instances
 
 To generate random problem instances for testing, type:
 
@@ -45,7 +45,7 @@ parameters are described by:
 
 The random problem file will be written to stdout.
 
-## Code overview
+## Code Overview
 
 We frame the problem of crop rotation as an optimization problem with the
 objective of maximizing plot utilization, subject to some constraints.  This
@@ -63,7 +63,7 @@ Adjacent plots may not have crops from the same family planted in them at the
 same time.  Also, crops from the same family may not be planted sequentially
 in any plot.
 
-### Problem parameters
+### Problem Parameters
 
 These are the parameters of the problem:
 
@@ -154,7 +154,7 @@ LaTeX equation:
 
 ![Constraint 3](_static/const3.png)
 
-### Wrap-around periods
+### Wrap-around Periods
 
 Crop rotations are cyclic, so the period following `M` is 1.  The second and
 third constraints of the problem take wrapping into account.  Here is an
