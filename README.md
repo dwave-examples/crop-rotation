@@ -49,8 +49,8 @@ The random problem file will be written to stdout.
 
 We frame the problem of crop rotation as an optimization problem with the
 objective of maximizing plot utilization, subject to some constraints.  This
-problem definition is based on the formulation described in Santos et al.
-(2008).
+problem definition is based on the formulation described in [Santos et al.
+(2008)](#santos).
 
 Crops are members of crop families.  Each crop may be planted in any plot,
 and may be grown zero or more times in a rotation, but may be planted only in
@@ -195,6 +195,7 @@ pairing of the variables that appear in each constraint's sum.
 
 ## References
 
+<a id="santos"></a>
 Santos, L. M. R. dos et al. "Crop rotation scheduling with adjacency
 constraints." Springer Science+Business Media, LLC, 26 Nov. 2008.
 
