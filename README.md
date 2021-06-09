@@ -158,9 +158,11 @@ LaTeX equation:
 
 ### Wrap-around Periods
 
-Crop rotations are cyclic, so the period following `M` is 1.  The second and
-third constraints of the problem take wrapping into account.  Here is an
-illustration of a wrapping solution:
+Crop rotations are cyclic, so the period following `M` is 1.  The constraints
+of the problem take wrapping into account.  This is done by substituting
+`j - r + M` for `j - r` in the constraint inequalities, whenever `j - r < 1`.
+
+Here is an illustration of a wrapping solution:
 
 ![Wrapping Solution](_static/solution2.png)
 
