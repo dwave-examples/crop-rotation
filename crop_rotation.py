@@ -128,9 +128,9 @@ class CropRotation:
         """Generate combinations of variables and cases from an input sequence.
 
         Args:
-            plot:
+            plot: The plot to generate combinations for.
 
-            period:
+            period: The period to generate combinations for.
 
             crop_r: Sequence of crops paired with r-values.  R-values are
                 integers used to identify earlier or later growing periods on
@@ -161,7 +161,7 @@ class CropRotation:
         """Generate combinations of variables and cases from an input sequence.
 
         Args:
-            period:
+            period: The period to generate combinations for.
 
             plot_crop_r: Sequence of (plot, crop, r-value) triples.  R-values
                 are integers used to identify earlier or later growing periods
