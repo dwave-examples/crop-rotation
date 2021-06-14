@@ -1,3 +1,6 @@
+[![Linux/Mac/Windows build status](
+  https://circleci.com/gh/dwave-examples/crop-rotation.svg?style=svg)](
+  https://circleci.com/gh/dwave-examples/crop-rotation)
 
 # Crop Rotation
 
