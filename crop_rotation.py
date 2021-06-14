@@ -12,20 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import click
-import matplotlib.pyplot as plt
+from collections import defaultdict
+from itertools import combinations
+from os.path import dirname, join
 import random
-import yaml
 import sys
 import tempfile
 
-from collections import defaultdict
-from itertools import combinations
+import click
+from dwave.system import LeapHybridDQMSampler
+import matplotlib.pyplot as plt
 from matplotlib.colors import hsv_to_rgb
 from matplotlib.ticker import MultipleLocator
-from os.path import dirname, join
-
-from dwave.system import LeapHybridDQMSampler
+import yaml
 
 from caselabeldqm import CaseLabelDQM
 from validate import validate_problem, InvalidProblem

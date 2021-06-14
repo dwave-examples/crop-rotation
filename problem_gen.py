@@ -12,10 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import click
-import yaml
 import random
 import string
+
+import click
+import yaml
 
 from validate import validate_problem
 
