@@ -1,0 +1,166 @@
+
+time_units: 24
+
+plot_adjacency:
+    1: [2, 6]
+    2: [1, 3, 7]
+    3: [2, 4, 8]
+    4: [3, 5, 9]
+    5: [4, 10]
+    6: [1, 7, 11]
+    7: [6, 2, 8, 12]
+    8: [7, 3, 9, 13]
+    9: [8, 4, 10, 14]
+    10: [9, 5, 15]
+    11: [6, 12, 16]
+    12: [11, 7, 13, 17]
+    13: [12, 8, 14, 18]
+    14: [13, 9, 15, 19]
+    15: [14, 10, 20]
+    16: [11, 17, 21]
+    17: [16, 12, 18, 22]
+    18: [17, 13, 19, 23]
+    19: [18, 14, 20, 24]
+    20: [19, 15, 25]
+    21: [16, 22]
+    22: [21, 17, 23]
+    23: [22, 18, 24]
+    24: [23, 19, 25]
+    25: [24, 20]
+
+crops:
+    Corn:
+        family: Grain
+        planting: [11, 12]
+        grow_time: 4
+
+    Sunflower:
+        family: Aster
+        planting: [10, 12]
+        grow_time: 7
+
+    Peas:
+        family: Legume
+        planting: [6, 7]
+        grow_time: 3
+
+    Beans:
+        family: Legume
+        planting: [11, 12]
+        grow_time: 6
+
+    Early Sugar beet:
+        family: Chenopodium
+        planting: [7, 8]
+        grow_time: 3
+
+    Late Sugar beet:
+        family: Chenopodium
+        planting: [16, 17]
+        grow_time: 3
+
+    Early Cabbage:
+        family: Cole
+        planting: [8, 9]
+        grow_time: 3
+
+    Late Cabbage:
+        family: Cole
+        planting: [15, 16]
+        grow_time: 4
+
+    Early Broccoli:
+        family: Cole
+        planting: [6, 7]
+        grow_time: 3
+
+    Late Broccoli:
+        family: Cole
+        planting: [16, 17]
+        grow_time: 4
+
+    Early Kale:
+        family: Cole
+        planting: [6, 7]
+        grow_time: 4
+
+    Late Kale:
+        family: Cole
+        planting: [16, 17]
+        grow_time: 6
+
+    Tomato:
+        family: Solanum
+        planting: [11, 12]
+        grow_time: 4
+
+    Potato:
+        family: Solanum
+        planting: [9, 10]
+        grow_time: 6
+
+    Turnip:
+        family: Cole
+        planting: [2, 14]
+        grow_time: 4
+
+    Early Carrot:
+        family: Apium
+        planting: [7, 8]
+        grow_time: 4
+
+    Late Carrot:
+        family: Apium
+        planting: [16, 17]
+        grow_time: 4
+
+    Onion:
+        family: Alium
+        planting: [5, 7]
+        grow_time: 5
+
+    Garlic:
+        family: Alium
+        planting: [2, 2]
+        grow_time: 10
+
+    Sweet pepper:
+        family: Solanum
+        planting: [10, 11]
+        grow_time: 6
+
+    Hot pepper:
+        family: Solanum
+        planting: [10, 11]
+        grow_time: 7
+
+    Early Spinach:
+        family: Chenopodium
+        planting: [6, 7]
+        grow_time: 3
+
+    Late Spinach:
+        family: Chenopodium
+        planting: [16, 17]
+        grow_time: 3
+
+    Winter squash:
+        family: Cucurbit
+        planting: [9, 11]
+        grow_time: 5
+
+    Summer squash:
+        family: Cucurbit
+        planting: [9, 10]
+        grow_time: 7
+
+    Melon:
+        family: Cucurbit
+        planting: [11, 12]
+        grow_time: 5
+
+    Eggplant:
+        family: Solanum
+        planting: [10, 12]
+        grow_time: 6
+
