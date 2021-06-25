@@ -388,6 +388,19 @@ class CropRotation:
         fig.savefig(path)
         print(f'Saved illustration of solution to {path}')
 
+    @property
+    def utilization(self):
+        """Return the fraction of the maximum possible plot utilization,
+        effected by the found solution.
+        """
+        utilization = 0
+        for k, plot in enumerate(self.plot_adjacency):
+            for period in range(1, self.time_units + 1):
+                crop = self.solution[f'{plot},{period}']
+                if crop:
+                    utilization += self.grow_time[crop]
+        return utilization / (len(self.plot_adjacency) * self.time_units)
+
     def evaluate(self):
         """Evaluate the solution.
         """
@@ -397,6 +410,7 @@ class CropRotation:
         sample = self.solution
         print(f'Solution: {dict(((k, v) for k, v in sample.items() if v))}')
         print(f'Solution energy: {self.sampleset.first.energy}')
+        print(f'Plot utilization: {100 * self.utilization:.1f} %')
 
         for error in self.validate(sample):
             print(f'Solution is invalid: {error}')
