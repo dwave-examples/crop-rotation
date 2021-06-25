@@ -390,8 +390,8 @@ class CropRotation:
 
     @property
     def utilization(self):
-        """Return the fraction of the maximum possible plot utilization,
-        effected by the found solution.
+        """Return the fraction of the maximum possible plot utilization for the
+        found solution.
         """
         utilization = 0
         for k, plot in enumerate(self.plot_adjacency):
